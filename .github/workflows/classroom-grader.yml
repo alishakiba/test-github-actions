@@ -1,0 +1,32 @@
+name: Autograding Pipeline
+
+# Trigger this workflow every time a student pushes code to the main branch
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  grade-assignment:
+    runs-on: ubuntu-latest
+
+    steps:
+    # Step 1: Download the student's repository code into the runner
+    - name: Checkout student code
+      uses: actions/checkout@v4
+    - name: Pull official test script from Teacher Repo
+      run: |
+        curl -o test_sorting.py https://raw.githubusercontent.com/alishakiba/test-github-actions/refs/heads/main/test_sorting.py
+
+    # Step 2: Set up a secure Python environment
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.10'
+
+    # Step 3: Execute the unit tests with verbose logging
+    - name: Run Autograding Tests
+      run: |
+        echo "=== STARTING AUTOMATED GRADING ==="
+        python -m unittest verbose test_sorting.py
