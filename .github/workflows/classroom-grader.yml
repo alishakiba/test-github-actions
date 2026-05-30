@@ -29,4 +29,4 @@ jobs:
     - name: Run Autograding Tests
       run: |
         echo "=== STARTING AUTOMATED GRADING ==="
-        python -m unittest verbose test_sorting.py
+        python -m unittest --verbose test_sorting.py
